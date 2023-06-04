@@ -19,6 +19,18 @@
 CREATE DATABASE IF NOT EXISTS `FinKit` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `FinKit`;
 
+-- Дамп структуры для таблица FinKit.auth_data
+CREATE TABLE IF NOT EXISTS `auth_data` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `secret_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expires_at` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Дамп данных таблицы FinKit.auth_data: ~0 rows (приблизительно)
+
 -- Дамп структуры для таблица FinKit.login_attempts
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -26,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `attempt_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_ip_time` (`ip_address`,`attempt_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Дамп данных таблицы FinKit.login_attempts: ~0 rows (приблизительно)
 
