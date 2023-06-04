@@ -45,18 +45,20 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     if ($user && password_verify($password, $user["password"])) {
 
         // Генерируем случайную строку
-        $key = bin2hex(random_bytes(20));
+        $secret_key = bin2hex(random_bytes(20));
 
-        // Устанавливаем переменные сессии
-        $_SESSION["key"] = $key;
-        $_SESSION["user_id"] = $user["id"];
+        // Устанавливаем время авторизации без пароля
+        $expires_at = date("Y-m-d H:i:s", strtotime("+2 days"));
+
+        // Сохраняем информацию о сеансе в базе данных
+        $stmt = $pdo->prepare("INSERT INTO auth_data (user_id, secret_key, expires_at) VALUES (?, ?, ?)");
+        $stmt->execute([$user["id"], $secret_key, $expires_at]);
 
         // Устанавливаем cookies
-        setcookie("key", $key, time() + (86400 * 30), "/");
+        setcookie("secret_key", $secret_key, time() + (86400 * 30), "/");
         setcookie("user_id", $user["id"], time() + (86400 * 30), "/");
 
         $auth = true;
-
 
         // Выводим сообщение об успешной авторизации
         echo json_encode(["auth" => true, "user_id" => $user["id"]]);

@@ -1,5 +1,9 @@
 <?php
-session_start();
+require_once(__DIR__ . "/database.php");
+require_once(__DIR__ . "/auth_check.php");
+
+global $USER;
+auth_check($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,19 +20,8 @@ session_start();
 <body>
     <div class="container" id="content">
         <?php
-        //Проверка авторизован ли
-        $auth = false;
-        $user_id = null;
-
-        if (isset($_COOKIE["key"]) && isset($_COOKIE["user_id"])) {
-            if ($_SESSION["key"] == $_COOKIE["key"] && $_SESSION["user_id"] == $_COOKIE["user_id"]) {
-                $user_id = $_COOKIE["user_id"];
-                $auth = true;
-            }
-        }
-
         //Вывожу шаблоны в зависимости от авторизации
-        if ($auth && !is_null($user_id)) {
+        if ($USER['auth']) {
             require(__DIR__ . "/templates/user_info.php");
         } else {
             require(__DIR__ . "/templates/auth.php");

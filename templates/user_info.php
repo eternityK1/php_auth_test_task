@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../database.php");
 
 $stmt = $pdo->prepare("SELECT name, photo, birthday FROM users WHERE id = ?");
-$stmt->execute([$user_id]);
+$stmt->execute([$USER['user_id']]);
 $row = $stmt->fetch();
 ?>
 <div class="info">
@@ -27,4 +27,3 @@ $row = $stmt->fetch();
         Log out
     </button>
 </div>
-
